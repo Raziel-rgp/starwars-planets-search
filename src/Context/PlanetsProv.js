@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import ContextApp from './ContextApp';
 import getPlanets from '../services/PlanetsAPI';
@@ -130,7 +130,7 @@ function PlanetsProv({ children }) {
     }
   }, [filtersSelected, func, filterColumn]); */
 
-  const contextValue = {
+  const contextValue = useMemo(() => ({
     planets,
     filters,
     setPlanets,
@@ -151,7 +151,7 @@ function PlanetsProv({ children }) {
     setPlanetsFilter,
     setFiltersSelec,
     func,
-  };
+  }));
 
   return (
     <ContextApp.Provider value={ contextValue }>
