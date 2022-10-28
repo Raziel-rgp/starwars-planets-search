@@ -17,11 +17,17 @@ function PlanetsProv({ children }) {
   const [filtersSelected, setFiltersSelec] = useState([]);
   const [filterColumn, setFilterColumn] = useState(['population',
     'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
+  const [order, setOrder] = useState('ASC');
+  const [orderFiltered, setOrderFiltered] = useState({});
+  const [columnSort, setColumnSort] = useState('population');
 
   useEffect(() => {
-    getPlanets().then((planetas) => {
-      setPlanets(planetas);
-    });
+    const apiSearch = async () => {
+      getPlanets().then((planetas) => {
+        setPlanets(planetas);
+      });
+    };
+    apiSearch();
   }, []);
 
   useEffect(() => {
@@ -71,18 +77,21 @@ function PlanetsProv({ children }) {
           && info.num === 0
           && info.col === 'population' && pltp === 'unknown') {
         const filterPlanet = delete planet.population === 'unknown';
+        console.log('if1= foi');
         return filterPlanet;
       }
       if (info.op === maiorQ) {
+        console.log('if2= foi');
         return Number(planet[info.col]) > Number(info.num);
       }
       if (info.op === menorQ) {
+        console.log('if3= foi');
         return Number(planet[info.col]) < Number(info.num);
       }
+      console.log('if4= foi');
       return Number(planet[info.col]) === Number(info.num);
     }));
     setPlanetsFilter(pltFilter);
-    deleteColItem();
   };
 
   const trashButton = (col) => {
@@ -95,9 +104,6 @@ function PlanetsProv({ children }) {
         setPlanetsFilter(planets);
       }
     }
-    if (filtersSelected.length > 1) {
-      console.log('foiii');
-    }
     if (filtersSelected.length === 0) {
       setPlanetsFilter(planets);
     }
@@ -106,29 +112,35 @@ function PlanetsProv({ children }) {
   const allTrashButton = (col) => {
     if (!filterColumn.includes(col)) {
       setFilterColumn((current) => [...current, ...[col]]);
-      const bla = filtersSelected.filter((selec) => selec.col !== col);
-      setFiltersSelec(bla);
+      setFiltersSelec([]);
       setPlanetsFilter(planets);
     }
   };
 
-  /* useEffect(() => {
-    if (!filterColumn.includes(col)) {
-      setFilterColumn((current) => [...current, ...[col]]);
-      const bla = filtersSelected.filter((selec) => selec.col !== col);
-      setFiltersSelec(bla);
-      if (filtersSelected.length === 0) {
-        setPlanetsFilter(planets);
-      }
+  const orderSort = (orderFiltered) => {
+    console.log('fui clicado');
+    const {
+      columnSort: selectColumn,
+      order: selectOrdenation } = orderFiltered;
+    if (selectOrdenation === 'ASC') {
+      console.log('asc');
+      const orderedPlanets = planets
+        .sort(({ [selectColumn]: elementA }, { [selectColumn]: elementB }) => (
+          elementB - elementA))
+        .sort(({ [selectColumn]: elementA }, { [selectColumn]: elementB }) => (
+          elementA - elementB));
+      setPlanetsFilter(orderedPlanets);
+      return orderedPlanets;
     }
-    if (filtersSelected.length > 1) {
-      console.log('foiii');
-      func();
+    if (selectOrdenation === 'DESC') {
+      console.log('desc');
+      const orderedPlanets = planets
+        .sort(({ [selectColumn]: elementA }, { [selectColumn]: elementB }) => (
+          elementB - elementA));
+      setPlanetsFilter(orderedPlanets);
+      return orderedPlanets;
     }
-    if (filtersSelected.length === 0) {
-      setPlanetsFilter(planets);
-    }
-  }, [filtersSelected, func, filterColumn]); */
+  };
 
   const contextValue = useMemo(() => ({
     planets,
@@ -151,8 +163,13 @@ function PlanetsProv({ children }) {
     setPlanetsFilter,
     setFiltersSelec,
     func,
+    setOrder,
+    order,
+    setOrderFiltered,
+    orderSort,
+    columnSort,
+    setColumnSort,
   }));
-
   return (
     <ContextApp.Provider value={ contextValue }>
       {children}

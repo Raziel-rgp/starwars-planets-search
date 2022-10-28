@@ -87,6 +87,7 @@ function FilterNum() {
               {`${filter.col} ${filter.op} ${filter.num}`}
               <button
                 type="button"
+                data-testid="delete-filter"
                 onClick={ () => trashButton(filter.col) }
               >
                 lixeira

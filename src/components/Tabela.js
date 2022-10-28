@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import ContextApp from '../Context/ContextApp';
 import FiltersTxt from './FiltersTxt';
 import FilterNum from './FilterNum';
+import FilterOrder from './FilterOrder';
 
 function Tabela() {
   const { planetsFilter } = useContext(ContextApp);
@@ -11,6 +12,7 @@ function Tabela() {
     <>
       <FiltersTxt />
       <FilterNum />
+      <FilterOrder />
       <table>
         <thead>
           <tr>
@@ -32,19 +34,19 @@ function Tabela() {
         <tbody>
           {planetsFilter.length > 0 && planetsFilter.map((planet, index) => (
             <tr key={ index }>
-              <td>{planet.name}</td>
-              <td>{planet.rotation_period}</td>
-              <td>{planet.orbital_period}</td>
-              <td>{planet.diameter}</td>
-              <td>{planet.climate}</td>
-              <td>{planet.gravity}</td>
-              <td>{planet.terrain}</td>
-              <td>{planet.surface_water}</td>
-              <td>{planet.population}</td>
-              <td>{planet.films}</td>
-              <td>{planet.created}</td>
-              <td>{planet.edited}</td>
-              <td>{planet.url}</td>
+              <td data-testid="planet-name">{planet.name}</td>
+              <td data-testid="planetRotation">{planet.rotation_period}</td>
+              <td data-testid="planetOrbit">{planet.orbital_period}</td>
+              <td data-testid="planetDinameter">{planet.diameter}</td>
+              <td data-testid="planetClimate">{planet.climate}</td>
+              <td data-testid="planetGravity">{planet.gravity}</td>
+              <td data-testid="planetTerrain">{planet.terrain}</td>
+              <td data-testid="planetSurfaceW">{planet.surface_water}</td>
+              <td data-testid="planetPopulation">{planet.population}</td>
+              <td data-testid="planetFilms">{planet.films}</td>
+              <td data-testid="planetCreated">{planet.created}</td>
+              <td data-testid="planetEdited">{planet.edited}</td>
+              <td data-testid="planetURL">{planet.url}</td>
             </tr>
           ))}
         </tbody>
