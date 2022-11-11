@@ -77,21 +77,16 @@ function PlanetsProv({ children }) {
           && info.num === 0
           && info.col === 'population' && pltp === 'unknown') {
         const filterPlanet = delete planet.population === 'unknown';
-        console.log('if1= foi');
         return filterPlanet;
       }
       if (info.op === maiorQ) {
-        console.log('if2= foi');
         return Number(planet[info.col]) > Number(info.num);
       }
       if (info.op === menorQ) {
-        console.log('if3= foi');
         return Number(planet[info.col]) < Number(info.num);
       }
-      console.log('if4= foi');
       return Number(planet[info.col]) === Number(info.num);
     }));
-    console.log(pltFilter);
     setPlanetsFilter(pltFilter);
   };
 
@@ -116,15 +111,12 @@ function PlanetsProv({ children }) {
   };
 
   const orderSort = (orderFiltere) => {
-    console.log(orderFiltere);
-    console.log('fui clicado');
     const {
       columnSort: selectColumn,
       order: selectOrdenation } = orderFiltere;
     if (selectOrdenation === 'ASC') {
       const orderedPlanets = planets
         .sort(({ [selectColumn]: elementA }, { [selectColumn]: elementB }) => {
-          console.log(elementA, elementB);
           if (elementA === 'unknown') {
             return 1;
           }
