@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import ContextApp from '../Context/ContextApp';
 
 function FilterOrder() {
@@ -7,8 +7,7 @@ function FilterOrder() {
     setOrderFiltered,
     columnSort,
     orderSort,
-    setColumnSort,
-    planetsFilter } = useContext(ContextApp);
+    setColumnSort } = useContext(ContextApp);
 
   const optionsSort = [
     'population',
@@ -17,8 +16,6 @@ function FilterOrder() {
     'rotation_period',
     'surface_water',
   ];
-
-  const [sortTrue, setSort] = useState(false);
 
   const handleOnClick = () => {
     setOrderFiltered(({
@@ -29,7 +26,6 @@ function FilterOrder() {
       order,
       columnSort,
     });
-    setSort(true);
   };
 
   const handleOrder = ({ target: { value } }) => {
@@ -39,14 +35,6 @@ function FilterOrder() {
   const handleChangeColumn = ({ target: { value } }) => {
     setColumnSort(value);
   };
-
-  /* useEffect(() => {
-    if (sortTrue) {
-      // orderFiltered
-      // orderSort();
-      setSort(false);
-    }
-  }, [planetsFilter, orderSort, sortTrue]); */
 
   return (
     <>

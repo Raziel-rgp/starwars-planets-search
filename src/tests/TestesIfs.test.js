@@ -1,6 +1,6 @@
+import React from 'react';
 import { screen, waitFor, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event';
-import React from 'react';
 import App from '../App';
 import data from './mocks/data';
 
@@ -12,97 +12,107 @@ describe('tests - page App', () => {
       })
     );
   });
-  test('1', () => {
+  test('primeiro if do provider', async () => {
     render(<App />);
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getAllByTestId("planet-name")).toHaveLength(10);
+      expect(screen.queryAllByText("unknown")).toHaveLength(3);
     });
+
     const columnFilter = screen.getByTestId("column-filter");
     const comparisonFilter = screen.getByTestId("comparison-filter");
     const valueFilter = screen.getByTestId("value-filter");
     const buttonFilter = screen.getByTestId("button-filter");
 
-    userEvent.selectOptions(columnFilter, "population");
+    //ações usuario
     userEvent.selectOptions(comparisonFilter, "maior que");
-    userEvent.type(valueFilter, "0");
-    userEvent.click(buttonFilter);
-    waitFor(() => {
+    userEvent.click(buttonFilter)
+
+    await waitFor(() => {
       expect(screen.getAllByTestId("planet-name")).toHaveLength(8);
+      // expect(screen.queryAllByText("unknown")).toHaveLength(1);
+    });
+    userEvent.click(screen.getByTestId("button-remove-filters"))
+    await waitFor(() => {
+      expect(screen.getAllByTestId("planet-name")).toHaveLength(10);
+      // expect(screen.queryAllByText("unknown")).toHaveLength(3);
     });
   })
-  test('02', async () => {
-    render(<App />)
+  test('segundo if do provider', async () => {
+    render(<App />);
+    await waitFor(() => {
+      expect(screen.getAllByTestId("planet-name")).toHaveLength(10);
+    });
+
     const columnFilter = screen.getByTestId("column-filter");
     const comparisonFilter = screen.getByTestId("comparison-filter");
     const valueFilter = screen.getByTestId("value-filter");
     const buttonFilter = screen.getByTestId("button-filter");
+
+    // ações usuario
     
     userEvent.selectOptions(columnFilter, "population");
     userEvent.selectOptions(comparisonFilter, "menor que");
     userEvent.type(valueFilter, "300000");
     userEvent.click(buttonFilter);
-    userEvent.selectOptions(columnFilter, "diameter");
-    userEvent.selectOptions(comparisonFilter, "maior que");
-    userEvent.click(buttonFilter);
-    userEvent.selectOptions(columnFilter, "surface_water");
-    userEvent.selectOptions(comparisonFilter, "igual a");
-    userEvent.type(valueFilter, "300000");
-    userEvent.click(buttonFilter);
-    
-    waitFor(() => {
-      expect(screen.getByTestId("filter")).toHaveLength();
-      const buttonDelete = screen.getAllByTestId("delete-filter")
-      userEvent.click(buttonDelete[0])
-      userEvent.click(buttonDelete[0])
-      userEvent.click(buttonDelete[0])
+    await waitFor(() => {
+      expect(screen.getAllByTestId("planet-name")).toHaveLength(2);
     });
   })
-  test('.3', () => {
-    render(<App />)
+  test('quarto if do provider', async () => {
+    render(<App />);
+    await waitFor(() => {
+      expect(screen.getAllByTestId("planet-name")).toHaveLength(10);
+    });
+
     const columnFilter = screen.getByTestId("column-filter");
     const comparisonFilter = screen.getByTestId("comparison-filter");
     const valueFilter = screen.getByTestId("value-filter");
     const buttonFilter = screen.getByTestId("button-filter");
 
+    // ações usuario
+    
     userEvent.selectOptions(columnFilter, "population");
     userEvent.selectOptions(comparisonFilter, "maior que");
     userEvent.type(valueFilter, "0");
     userEvent.click(buttonFilter);
-  })
-  test('.4', () => {
-    render(<App />)
-    const columnFilter = screen.getByTestId("column-filter");
-    const comparisonFilter = screen.getByTestId("comparison-filter");
-    const valueFilter = screen.getByTestId("value-filter");
-    const buttonFilter = screen.getByTestId("button-filter");
-    userEvent.selectOptions(columnFilter, "population");
+
+
+    userEvent.selectOptions(columnFilter, "diameter");
     userEvent.selectOptions(comparisonFilter, "maior que");
-    userEvent.type(valueFilter, "300000");
     userEvent.click(buttonFilter);
+    expect(screen.queryAllByTestId("delete-filter")).toHaveLength(2);
+    const buttonDelete = screen.getAllByTestId("delete-filter")
+    userEvent.click(buttonDelete[0])
   })
-  test('5', async () => {
-    render(<App />)
+  test(' if do provider', async () => {
+    render(<App />);
+    await waitFor(() => {
+      expect(screen.getAllByTestId("planet-name")).toHaveLength(10);
+    });
+
     const columnFilter = screen.getByTestId("column-filter");
     const comparisonFilter = screen.getByTestId("comparison-filter");
     const valueFilter = screen.getByTestId("value-filter");
     const buttonFilter = screen.getByTestId("button-filter");
+
+    // ações usuario
+    
+    await waitFor(() => {
+      expect(screen.getAllByTestId("planet-name")).toHaveLength(10);
+    });
     userEvent.selectOptions(columnFilter, "population");
     userEvent.selectOptions(comparisonFilter, "igual a");
-    userEvent.type(valueFilter, "2000000000");
+    userEvent.type(valueFilter, "300000");
     userEvent.click(buttonFilter);
-    waitFor(() => {
-      expect(screen.getAllByTestId("planet-name")).toHaveLength(1)
-    })
-  })
-  test('6', () => {
-    render(<App />)
-    const columnFilter = screen.getByTestId("column-filter");
-    const comparisonFilter = screen.getByTestId("comparison-filter");
-    const valueFilter = screen.getByTestId("value-filter");
-    const buttonFilter = screen.getByTestId("button-filter");
-    userEvent.selectOptions(columnFilter, "population");
-    userEvent.selectOptions(comparisonFilter, "maior que");
-    userEvent.type(valueFilter, "0");
+
+
+    userEvent.selectOptions(columnFilter, "diameter");
+    userEvent.selectOptions(comparisonFilter, "igual a");
     userEvent.click(buttonFilter);
+    expect(screen.queryAllByTestId("delete-filter")).toHaveLength(2);
+    const buttonDelete = screen.getAllByTestId("delete-filter")
+    userEvent.click(buttonDelete[0])
+    
   })
 });

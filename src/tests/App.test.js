@@ -12,7 +12,7 @@ describe('tests - page App', () => {
       })
     );
   });
-  test('verifica se a pagina contém os elementos corretos', async () => {
+  test('verifica se a pagina contém os elementos corretos', () => {
     render(<App />);
     const nameFilter = screen.getByTestId("name-filter");
     const columnFilter = screen.getByTestId("column-filter");
@@ -68,7 +68,6 @@ describe('tests - page App', () => {
     expect(valueFilter).toHaveValue(300000);
 
     expect(screen.getByTestId("filter")).toBeInTheDocument()
-    // expect(deleteButton).toBeInTheDocument()
   })
   test('testando os botões', () => {
     render(<App />);
@@ -83,19 +82,23 @@ describe('tests - page App', () => {
 
     userEvent.click(deleteButton);
     userEvent.click(buttonRMFilter);
+
     waitFor(() => {
-      expect(screen.getAllByTestId("planetName")).toHaveLength(10);
+      expect(screen.getAllByTestId("planet-name")).toHaveLength(10);
     });
+
+    const nameFilter = screen.getByTestId("name-filter");
     userEvent.type(nameFilter, "T")
+
     waitFor(() => {
-      expect(screen.getAllByTestId("planetName")).toHaveLength(1);
+      expect(screen.getAllByTestId("planet-name")).toHaveLength(1);
     });
   });
 
-  test('Verifica se é renderizado todos elem da tabela', () => {
+  test('Verifica se é renderizado todos elem da tabela', async () => {
     render(<App />);
-    waitFor(() => {
-      expect(screen.getAllByTestId("planetName")).toHaveLength(10);
+    await waitFor(() => {
+      expect(screen.getAllByTestId("planet-name")).toHaveLength(10);
     });
   })
 });

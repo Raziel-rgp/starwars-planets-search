@@ -91,6 +91,7 @@ function PlanetsProv({ children }) {
       console.log('if4= foi');
       return Number(planet[info.col]) === Number(info.num);
     }));
+    console.log(pltFilter);
     setPlanetsFilter(pltFilter);
   };
 
@@ -104,9 +105,6 @@ function PlanetsProv({ children }) {
         setPlanetsFilter(planets);
       }
     }
-    if (filtersSelected.length === 0) {
-      setPlanetsFilter(planets);
-    }
   };
 
   const allTrashButton = (col) => {
@@ -117,26 +115,43 @@ function PlanetsProv({ children }) {
     }
   };
 
-  const orderSort = (orderFiltered) => {
+  const orderSort = (orderFiltere) => {
+    console.log(orderFiltere);
     console.log('fui clicado');
     const {
       columnSort: selectColumn,
-      order: selectOrdenation } = orderFiltered;
+      order: selectOrdenation } = orderFiltere;
     if (selectOrdenation === 'ASC') {
-      console.log('asc');
       const orderedPlanets = planets
-        .sort(({ [selectColumn]: elementA }, { [selectColumn]: elementB }) => (
-          elementB - elementA))
+        .sort(({ [selectColumn]: elementA }, { [selectColumn]: elementB }) => {
+          console.log(elementA, elementB);
+          if (elementA === 'unknown') {
+            return 1;
+          }
+          if (elementB === 'unknown') {
+            const menoUm = -1;
+            return menoUm;
+          }
+
+          return elementB - elementA;
+        })
         .sort(({ [selectColumn]: elementA }, { [selectColumn]: elementB }) => (
           elementA - elementB));
       setPlanetsFilter(orderedPlanets);
       return orderedPlanets;
     }
     if (selectOrdenation === 'DESC') {
-      console.log('desc');
       const orderedPlanets = planets
-        .sort(({ [selectColumn]: elementA }, { [selectColumn]: elementB }) => (
-          elementB - elementA));
+        .sort(({ [selectColumn]: elementA }, { [selectColumn]: elementB }) => {
+          if (elementA === 'unknown') {
+            return 1;
+          }
+          if (elementB === 'unknown') {
+            const menoUm = -1;
+            return menoUm;
+          }
+          return elementB - elementA;
+        });
       setPlanetsFilter(orderedPlanets);
       return orderedPlanets;
     }
@@ -169,6 +184,7 @@ function PlanetsProv({ children }) {
     orderSort,
     columnSort,
     setColumnSort,
+    orderFiltered,
   }));
   return (
     <ContextApp.Provider value={ contextValue }>
