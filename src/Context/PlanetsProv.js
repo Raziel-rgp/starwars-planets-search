@@ -117,6 +117,7 @@ function PlanetsProv({ children }) {
     if (selectOrdenation === 'ASC') {
       const orderedPlanets = planets
         .sort(({ [selectColumn]: elementA }, { [selectColumn]: elementB }) => {
+          console.log(elementA, elementB);
           if (elementA === 'unknown') {
             return 1;
           }
